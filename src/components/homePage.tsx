@@ -1,7 +1,7 @@
 import CardImage from "./card/cardImage";
 import "../stylesGlobals/homePage.css";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import _ from "lodash";
 
 interface IProductInfo {
@@ -31,7 +31,7 @@ function HomePage() {
       .catch((e) => console.log(e.message));
   }, []);
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const arraySearch: IProductInfo[] = dataResponse.filter(
       (value: IProductInfo, index: any, array: IProductInfo[]) => {
         if (_.isEmpty(event.target.value)) {
@@ -40,7 +40,6 @@ function HomePage() {
         return value.name.toLocaleLowerCase().includes(event.target.value);
       }
     );
-    console.log(arraySearch);
     if (arraySearch.length !== 0) {
       setDataSearch(arraySearch);
     }
@@ -55,8 +54,8 @@ function HomePage() {
           {loading ? (
             <h1>Loading...</h1>
           ) : (
-            dataSearch.length !== 0 &&
             dataSearch &&
+            dataSearch.length !== 0 &&
             dataSearch.map((value: IProductInfo, index: any) => (
               <div key={index.toString()}>
                 <CardImage
